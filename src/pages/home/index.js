@@ -5,6 +5,8 @@ const Home = () => {
     return(
             <Layout>
                 <PostCard />
+                <PostCard />
+                <PostCard />
             </Layout>
     )
  }
