@@ -1,5 +1,5 @@
 import Nav from './Nav';
-const Layout= ({Children}) => {
+const Layout= ({children}) => {
     return(
         <div className='container mx-auto' 
         style= {{maxWidth: '640px'}}>
@@ -7,7 +7,7 @@ const Layout= ({Children}) => {
                 Welcome to My Awesome Website!
             </div>
             <Nav />
-            <div>{Children}</div>
+            <div>{children}</div>
         </div>
     )
 }
