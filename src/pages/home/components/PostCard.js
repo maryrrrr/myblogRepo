@@ -9,7 +9,7 @@ const PostCard= ({postData}) =>{
                 </Link>
             </div>
             <div className="flex-1">
-                <div className="font-bold text-3xl">
+                <div className="font-bold text-2xl">
                     <Link to='/post/1'>{postData.title}</Link>
                 </div>
                 <div>{`${postData.content.substr(0,70)}...`}</div>
