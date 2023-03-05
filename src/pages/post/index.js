@@ -15,8 +15,8 @@ const Post= () => {
             }
         })
         .then(res => res.json())
-        .then((res) => {
-            setPost(res[0]) 
+        .then((response) => {
+            setPost(response[0]) 
         });
     }
 

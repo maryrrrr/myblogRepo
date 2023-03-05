@@ -30,7 +30,7 @@ const SignIn = () => {
           })
           setIsLoading(false);
           if(!error){
-            setMessage("We Sent You a Message. Please Check Your Email");
+            setMessage("We sent you an amazing email. Please check your email!");
           }
     }
 
@@ -81,12 +81,12 @@ const SignIn = () => {
                     <button type ="submit" 
                         disabled={isLoading}
                         className="w-42 bg-black text-white rounded p-2 mx-6">
-                        {!isLoading && isSignIn? "Sig In": "Sign Up"}
+                        {!isLoading && isSignIn? "Sign In": "Sign Up"}
                     </button>
                     <button type ="submit" 
                         className="w-42 bg-black text-white rounded p-2"
                         onClick= {()=> setIsSignIn((prev) =>!prev)}>
-                        {!isSignIn? "Sig In": "Sign Up"}
+                        {!isSignIn? "Sign In": "Sign Up"}
                         {isLoading && "Waiting... "}
                     </button>
             </form>
