@@ -8,13 +8,11 @@ const Post= () => {
     const [post,setPost]= useState();
 
     const getPost= () => {
-        fetch(`${process.env.REACT_APP_SUPABASE_URL}/rest/v1/posts?id=eq.${id}1&select=*`, 
-        {
-            method:'GET',
-            hedears: { 
-                apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
-                Authorization: process.env.REACT_APP_SUPABASE_ANON_KEY,   
-            },
+        fetch(`${process.env.REACT_APP_SUPABASE_URL}/rest/v1/posts?id=eq.${id}&select=*`,{
+            method:"GET",
+            headers:{
+                apikey:`${process.env.REACT_APP_SUPABASE_ANON_KEY}`
+            }
         })
         .then(res => res.json())
         .then((res) => {
