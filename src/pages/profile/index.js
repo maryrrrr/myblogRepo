@@ -19,10 +19,10 @@ const Profile= () =>{
                 placeholder="Type Your Name" 
                 type="text"/>
             </div>
-            <button className="w-42 bg-black text-white rounded p-2 ml-4">Update Your Name</button>
-            <div>
+            <div className="flex">
+            <button className=" w-42 bg-black text-white rounded p-2 ml-2">Update Your Name</button>
                 <button 
-                    className="w-32 bg-black text-white rounded p-2 ml-3"
+                    className=" w-24 bg-black text-white rounded p-2 ml-2"
                     onClick={()=> SignOut()}>Sign Up
                 </button> 
             </div>

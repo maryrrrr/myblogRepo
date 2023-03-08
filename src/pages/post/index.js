@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Layout from "../home/components/Layout";
-import CommentCard from "../post/components/Comment";
+import PostComment from "../post/components/Comment";
 import { supabase } from "../../data/supabase/client";
 
 const Post= () => {
@@ -13,19 +13,15 @@ const Post= () => {
     const [isLike, setIsLike]= useState(false);
 
     const getPost= () => {
-        fetch(`${process.env.REACT_APP_SUPABASE_PROJECT_URL}/rest/v1/posts?id=eq.${id}&select=*`, 
-        {
-            method:"GET",
-            hedears: { 
+        fetch(
+            `${process.env.REACT_APP_SUPABASE_URL}/rest/v1/posts?id=eq.${id}&select=*`,
+            {
+              method: "GET",
+              headers: {
                 apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
-                Authorization: process.env.REACT_APP_SUPABASE_ANON_KEY,   
-            },
-        fetch(`${process.env.REACT_APP_SUPABASE_PROJECT_URL}/rest/v1/posts?id=eq.${id}&select=*`,{
-            method:"GET",
-            headers:{
-                apikey:`${process.env.REACT_APP_SUPABASE_ANON_KEY}`
-            }
-        })
+                Authorization: process.env.REACT_APP_SUPABASE_ANON_KEY,
+              },
+            })
         .then(res => res.json())
         .then((response) => {
             setPost(response[0]) 
@@ -43,7 +39,7 @@ const Post= () => {
         .from("post_comments")
         .select("*")
         .eq("postId",id)
-        SendComment(comments);
+        setComments(comments);
     }
 
     useEffect(()=>{
@@ -122,8 +118,8 @@ const Post= () => {
               
                         <div> 
                             {comments.map((comment) => (
-                            <CommentCard  key={comment.id}
-                            commentData={comment} />))}
+                            <PostComment  key={comment.id}
+                                    commentData={comment} />))}
                         </div>
                     </div>
         </Layout>
