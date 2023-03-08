@@ -5,14 +5,14 @@ import { supabase} from '../../data/supabase/client';
 const SignIn = () => {
     const [email, setEmail]= useState();
     const [password, setPassword]= useState();
-    const [isSignIn,setIsSignIn]= useState(true);
+    const [isSignIn, setIsSignIn]= useState(true);
     const [isLoading, setIsLoading]= useState(false); 
     const [message, setMessage]= useState("");
 
     const navigate= useNavigate();
 
     const SignInUser= async() =>{
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { user, session, error  } = await supabase.auth.signInWithPassword({
             email,
             password,
         })
@@ -24,7 +24,7 @@ const SignIn = () => {
     }
 
     const SignUpUser= async()=>{
-        const { data, error } = await supabase.auth.signUp({
+        const { user, session, error  } = await supabase.auth.signUp({
             email,
             password,
           })
@@ -49,7 +49,7 @@ const SignIn = () => {
                 const getSession= async() => {
                     const { data } = await supabase.auth.getSession();
                     if(data.session){
-                        navigate('/profile');
+                        navigate("/profile");
                     }
                 };
                 getSession();
@@ -70,6 +70,7 @@ const SignIn = () => {
                         placeholder="Type Your Email" 
                         type="email"
                         value={email}/>
+
                     <div>Password:</div>
                     <input onChange={(e)=> setPassword(e.target.value)}
                         className="w-full border border-black rounded p-2" 
@@ -77,18 +78,20 @@ const SignIn = () => {
                         type="password" 
                         value={password}/>
                 </div>
-
+                <div className="flex">
                     <button type ="submit" 
                         disabled={isLoading}
                         className="w-42 bg-black text-white rounded p-2 mx-6">
-                        {!isLoading && isSignIn? "Sign In": "Sign Up"}
+                        {!isLoading && isSignIn ? "Sign In": "Sign Up"}
+                        {isLoading && "Waiting... "}
                     </button>
+
                     <button type ="submit" 
                         className="w-42 bg-black text-white rounded p-2"
                         onClick= {()=> setIsSignIn((prev) =>!prev)}>
-                        {!isSignIn? "Sign In": "Sign Up"}
-                        {isLoading && "Waiting... "}
+                        {!isSignIn ? "Sign In": "Sign Up"}
                     </button>
+                </div>
             </form>
         </div>
     );

@@ -1,10 +1,10 @@
-const PostComment= () =>{
+const PostComment= ({commentData}) =>{
     return(
         <div className="border border-black rounded p-2 my-2">
-            <div className="font-bold">Comment Author</div>
-            <div>Comment Content</div>
+            <div className="font-bold">User</div>
+            <div>{commentData.comment}</div>
         </div>
 
-    )
-}
+    );
+};
 export default PostComment;
