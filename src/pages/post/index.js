@@ -12,9 +12,8 @@ const Post= () => {
     const [comments, setComments]= useState([]);
     const [isLike, setIsLike]= useState(false);
 
-    const getPost= () => {
-        fetch(
-            `${process.env.REACT_APP_SUPABASE_URL}/rest/v1/posts?id=eq.${id}&select=*`,
+    const getPost= async(id) => {
+        fetch(`${process.env.REACT_APP_SUPABASE_URL}/rest/v1/posts?id=eq.${id}&select=*`,
             {
               method: "GET",
               headers: {
@@ -29,11 +28,6 @@ const Post= () => {
         getPostComments(id);
     }
 
-    useEffect(()=>{
-        getPost(id);
-
-    },[id]);
-
     const getPostComments= async(id)=> {
         const { data: comments, error } = await supabase
         .from("post_comments")
@@ -43,42 +37,48 @@ const Post= () => {
     }
 
     useEffect(()=>{
-        const getSession= async() =>{
-            const { data, error } = await supabase.auth.getSession();
-            setUserId(data.session.user.id);
-        }
-        getSession();
-    },[]);
+        getPost(id);
+
+    },[id]);
 
     useEffect(async()=>{
         const getUserPostLike= async() =>{
             const { data } = await supabase
-            .from('post-like')
+            .from("post-like")
             .select("*")
-            .eq('postId', id)
-            .eq('userId', userId)
+            .eq("postId", id)
+            .eq("userId", userId)
         
         if(data.length>0){
             setIsLike(true);
         }
-    }
+    };
         getUserPostLike();
 
     },[id, userId]);
+
+    useEffect(()=>{
+        const getSession= async() =>{
+            const { data, error } = await supabase.auth.getSession();
+            setUserId(data.session.id);
+        };
+        getSession();
+    },[]);
+
 
     const SendComment= async() =>{
         const { data, error } = await supabase
         .from('post_comments')
         .insert([
             { comment, userId, postId:id },
-        ])
-        getPostComments();
+        ]);
+        getPostComments(id);
     };
 
     const handleLikeClick= async() =>{
         if(!isLike){
             const { data, error } = await supabase
-            .from('post-like')
+            .from("post-like")
             .insert([{ postId: id, userId }]);
          }
         };
@@ -89,14 +89,16 @@ const Post= () => {
                 {!post && <div>Loading...</div>}
                 {post && ( 
                 <>
-                    <div>
+                    <div className="m-2">
                         <img src={post.image} 
                         alt={post.title} />
                     </div>
                     <h1 className="font-bold text-3xl">{post.title}</h1>
                     <div>{post.content}</div>
-                    <div className= {"border border-1 rounded m-2 p-2" `${isLike && "bg-black text-white"}`}>
-                        <div onClick={() =>handleLikeClick()}>like</div>
+                    <div className="flex">
+                        <div className= {`border border-1 rounded m-2 p-2 ${isLike && "bg-black text-white"}`}>
+                            <div onClick={() =>handleLikeClick()}>like</div>
+                        </div>
                     </div>
                 </>
                 )}
@@ -107,7 +109,7 @@ const Post= () => {
                             <input 
                                 value= {comment}
                                 onchange= {(e) => setComment(e.target.value)}
-                                className="flex-1 rounded p-2" type="text" 
+                                className="flex-1 border-none outline-none rounded p-2" type="text" 
                                 placeholder="Type Your Comment..."
                              />
                             <button 
