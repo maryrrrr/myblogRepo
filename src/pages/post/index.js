@@ -36,29 +36,29 @@ const Post= () => {
         setComments(comments);
     }
 
-    useEffect(()=>{
+    useEffect( ()=>{
         getPost(id);
 
     },[id]);
 
-    useEffect(async()=>{
+    useEffect( ()=> {
         const getUserPostLike= async() =>{
             const { data } = await supabase
             .from("post-like")
             .select("*")
             .eq("postId", id)
             .eq("userId", userId)
-        
-        if(data.length>0){
-            setIsLike(true);
-        }
-    };
+
+            if(data.length>0){
+                setIsLike(true);
+            }
+        };
         getUserPostLike();
 
     },[id, userId]);
 
-    useEffect(()=>{
-        const getSession= async() =>{
+    useEffect( ()=>{
+        const getSession= async() => {
             const { data, error } = await supabase.auth.getSession();
             setUserId(data.session.id);
         };
@@ -66,21 +66,21 @@ const Post= () => {
     },[]);
 
 
-    const SendComment= async() =>{
+    const SendComment= async() => {
         const { data, error } = await supabase
-        .from('post_comments')
+        .from("post_comments")
         .insert([
             { comment, userId, postId:id },
         ]);
         getPostComments(id);
     };
 
-    const handleLikeClick= async() =>{
+    const handleLikeClick= async() => {
         if(!isLike){
             const { data, error } = await supabase
             .from("post-like")
             .insert([{ postId: id, userId }]);
-         }
+            }
         };
 
     return(
@@ -88,19 +88,19 @@ const Post= () => {
             <div className="border border-black rounded p-2 my-2">
                 {!post && <div>Loading...</div>}
                 {post && ( 
-                <>
-                    <div className="m-2">
-                        <img src={post.image} 
-                        alt={post.title} />
-                    </div>
-                    <h1 className="font-bold text-3xl">{post.title}</h1>
-                    <div>{post.content}</div>
-                    <div className="flex">
-                        <div className= {`border border-1 rounded m-2 p-2 ${isLike && "bg-black text-white"}`}>
-                            <div onClick={() =>handleLikeClick()}>like</div>
+                    <>
+                        <div className="m-2">
+                            <img src={post.image} 
+                                 alt={post.title} />
                         </div>
-                    </div>
-                </>
+                        <h1 className="font-bold text-3xl">{post.title}</h1>
+                        <div>{post.content}</div>
+                        <div className="flex">
+                            <div className= {`border border-1 rounded m-2 p-2 ${isLike && "bg-black text-white"}`}>
+                                <div onClick={ ()=> handleLikeClick()}>like</div>
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
                     <div className="border border-black rounded p-2">
@@ -120,8 +120,8 @@ const Post= () => {
               
                         <div> 
                             {comments.map((comment) => (
-                            <PostComment  key={comment.id}
-                                    commentData={comment} />))}
+                                <PostComment  key={comment.id}
+                                              commentData={comment} />))}
                         </div>
                     </div>
         </Layout>

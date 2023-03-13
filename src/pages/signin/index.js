@@ -12,7 +12,7 @@ const SignIn = () => {
     const navigate= useNavigate();
 
     const SignInUser= async() =>{
-        const { user, session, error  } = await supabase.auth.signInWithPassword({
+        const { user, session, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         })
@@ -23,8 +23,8 @@ const SignIn = () => {
 
     }
 
-    const SignUpUser= async()=>{
-        const { user, session, error  } = await supabase.auth.signUp({
+    const SignUpUser= async() =>{
+        const { user, session, error } = await supabase.auth.signUp({
             email,
             password,
           })
