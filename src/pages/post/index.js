@@ -18,7 +18,7 @@ const Post= () => {
               method: "GET",
               headers: {
                 apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
-                Authorization: process.env.REACT_APP_SUPABASE_ANON_KEY,
+                // Authorization: process.env.REACT_APP_SUPABASE_ANON_KEY,
               },
             })
         .then(res => res.json())
